@@ -17,12 +17,10 @@ El objetivo principal del Chinchón es combinar las 7 cartas de la mano en grupo
    * **Descarte:** Para finalizar el turno, el jugador debe seleccionar una carta de su mano y arrojarla a la pila de descarte.
 3. **Condición de Cierre:** Un jugador puede cerrar si es capaz de realizar combinaciones válidas de tal manera que las cartas no combinadas ("puntos sueltos") sumen cómo máximo 0 y 5 puntos, o si tiene Chinchón.
 
-### 📸 Capturas de Pantalla de la Interfaz del Juego
-*(Espacio reservado para las capturas que muestran la ejecución del menú en consola, el reparto y las manos de los jugadores)*
+### Capturas de Pantalla de la Interfaz del Juego
 
-*(Añade aquí tus imágenes locales guardadas en el repositorio)*
-![Inicio del Juego y Configuración](Flujo.png)
-![Flujo del Turno en Consola](./docs/captura_turno.png)
+![Inicio del Juego y Configuración](flujoJuego.png)
+![Flujo del Turno en Consola](flujoIA.png)
 
 ---
 
@@ -87,3 +85,170 @@ public class ConsoleInput {
         return instance;
     }
 }
+```
+### 2. Patrón Builder (Constructor Progresivo)
+* **Se aplica:** En [BuilderPlayer.java](src/app/BuilderPlayer.java). Simplifica y flexibiliza la instanciación de jugadores complejos. Permite configurar de forma legible los atributos necesarios (como el nombre o si se trata de una Inteligencia Artificial) mediante llamadas encadenadas antes de delegar la creación final.
+* **Código:**
+
+```java
+public class BuilderPlayer {
+    private String name;
+    private boolean isAi;
+
+    public BuilderPlayer setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public BuilderPlayer setIsAi(boolean isAi) {
+        this.isAi = isAi;
+        return this;
+    }
+
+    public Player build() {
+        if (isAi) {
+            return new AiPlayer(name);
+        } else {
+            return new HumanPlayer(name);
+        }
+    }
+}
+````
+## 3. Patrón Factory Method (Creación Polimórfica)
+
+* **Se aplica:**
+En la interacción entre `BuilderPlayer.java` y `GestorGame.java`.
+Se utiliza para abstraer al cliente (`GestorGame`) para saber de qué subclase concreta está instanciando.
+El método `build()` actúa como una fábrica que encapsula la lógica de creación y devuelve la abstracción base `Player`.
+
+### Ejemplo de Código de Uso
+
+```java
+for (int i = 0; i < humans; i++) {
+    players.add(
+        new BuilderPlayer()
+            .setName("H" + (i + 1))
+            .setIsAi(false)
+            .build()
+    );
+}
+
+for (int i = 0; i < ais; i++) {
+    players.add(
+        new BuilderPlayer()
+            .setName("IA" + (i + 1))
+            .setIsAi(true)
+            .build()
+    );
+}
+```
+
+---
+
+# 4. Pruebas Unitarias 
+
+## Enfoque Utilizado
+
+Para certificar la estabilidad de los algoritmos de descarte y combinaciones, se ha implementado una suite en **JUnit 5** utilizando dos metodologías:
+
+### Caja Negra
+Pruebas funcionales basadas estrictamente en las especificaciones de entrada y salida esperadas de las reglas de juego.
+
+### Caja Blanca
+Pruebas estructurales diseñadas analizando el código fuente para cubrir caminos específicos, condiciones límite y ramas condicionales (`if/else`).
+
+---
+
+## Ejemplos de Cobertura de Pruebas en la clase de `HandTest.java`
+
+### A. Caja Blanca: Restricción de Tamaño de Mano
+
+Se fuerza la ejecución de ambas ramas del condicional:
+
+```java
+@Test
+void testAddCardsCajaBlancaRamaNoPermiteAgregar() {
+    for (int i = 0; i < 9; i++) {
+        hand.AddCards(new Rank(Card.ACE, Suit.GOLD));
+    }
+
+    assertEquals(
+        9,
+        hand.SizeHand(),
+        "La mano alcanzó su límite máximo de control condicional"
+    );
+}
+```
+
+---
+
+### B. Caja Negra: Validación de Reglas de Chinchón
+
+Se verifica que una escalera de únicamente tres cartas no sea considerada un Chinchón.
+
+```java
+@Test
+void testIsNotChinchon() {
+    hand.AddCards(new Rank(Card.ACE, Suit.GOLD));
+    hand.AddCards(new Rank(Card.TWO, Suit.GOLD));
+    hand.AddCards(new Rank(Card.THREE, Suit.GOLD));
+
+    assertFalse(
+        hand.IsChinchon(),
+        "No debe ser chinchón con solo 3 cartas en escalera"
+    );
+}
+```
+
+---
+
+## 📸 Evidencias de Ejecución
+
+Los test se ejecutan correctamente mostrando la característica **barra verde de JUnit**, indicando que todas las pruebas han sido superadas satisfactoriamente.
+![Funciona HandTest](handTestProbado.png)
+
+![Funciona DeckTest](RankTest-probadfo.png)
+
+![Funciona Handtest](decktestGuardado.png)
+
+---
+
+# 5. Documentación JavaDoc
+
+El código fuente ha sido documentado exhaustivamente siguiendo los estándares oficiales de la API de Java para facilitar la legibilidad, comprensión y mantenimiento del proyecto.
+
+## Estructura de la Documentación
+
+Cada componente y método cuenta con su correspondiente bloque JavaDoc utilizando las anotaciones estándar:
+
+- `@param` → Describe parámetros de entrada.
+- `@return` → Describe el valor retornado.
+- `@Override` → Indica sobrescritura de métodos heredados.
+
+### Ejemplo de Documentación
+
+```java
+/**
+ * Ejecuta de manera automatizada el turno correspondiente
+ * a la Inteligencia Artificial.
+ *
+ * @param discard Instancia del descarte actual para evaluar robos visibles.
+ * @param deck Instancia del mazo general del juego.
+ * @param currentDeck Lista estructurada de cartas remanentes en el mazo.
+ * @param count Contador incremental de turnos de la partida actual.
+ *
+ * @return true si la IA ha alcanzado las condiciones de cierre;
+ *         false en caso contrario.
+ */
+@Override
+public boolean playTurn(
+        Discard discard,
+        Deck deck,
+        List<Rank> currentDeck,
+        int count) {
+
+    // Implementación del método
+}
+```
+
+---
