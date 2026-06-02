@@ -44,27 +44,28 @@ A continuación se ilustra la arquitectura de clases, herencias y dependencias q
 
 ###  Descripción de Clases y Responsabilidades
 
-* **`Main`**: Punto de entrada del programa. Inicializa la interfaz y delega el control al orquestador.
+* **`Main`**: Punto de entrada del programa. Inicializa la interfaz y delega el control.
 * **`GestorGame`**: Clase controladora principal. Coordina los turnos, gestiona el flujo, el reparto de cartas y valida de manera global el final del juego.
-* **`ConsoleInput`**: Utilidad encargada de centralizar, capturar y validar sintácticamente todas las entradas del usuario por teclado, evitando caídas inesperadas de la aplicación.
-* **`BuilderPlayer`**: Constructor especializado en parametrizar y ensamblar instancias derivadas de la clase jugador de forma limpia.
-* **`Player` (Clase Abstracta)**: Entidad base que agrupa los atributos comunes (nombre, mano, puntuación) y prescribe los métodos abstractos que gobernarán el comportamiento polimórfico de los turnos.
-* **`HumanPlayer`**: Especialización de `Player` que implementa la toma de decisiones basada en menús interactivos dirigidos al usuario humano.
-* **`AiPlayer`**: Especialización de `Player` que automatiza de forma algorítmica las decisiones de robo, descarte e intento de cierre del juego.
-* **`Hand`**: Clase crítica que encapsula el comportamiento del conjunto de cartas de un jugador. Ejecuta los algoritmos de detección de combinaciones (`countStairs`, `choosequals`) y el cálculo de penalizaciones.
-* **`Deck`**: Entidad encargada de instanciar de manera estática el mazo de cartas de la baraja española y aplicar el algoritmo de barajado.
-* **`Discard`**: Gestiona la pila visible de descartes, controlando las inserciones y extracciones de cartas.
-* **`Rank`**: Representación concreta de un naipe individual, acoplando un valor ordinal (`Card`) con su respectivo palo (`Suit`).
-* **`Card` & `Suit` (Enums)**: Catálogos de constantes estáticas que configuran los valores numéricos y los iconos visuales (emojis) reglamentarios.
+* **`ConsoleInput`**:No permite ciertas cosas a las entradas del usuario por teclado, evitando caídas inesperadas de la aplicación.
+* **`BuilderPlayer`**: Construye a ls jugadores Ia y a las personas.
+* **`Player` (Clase Abstracta)**: Controla los turnos de los jugadores.
+* **`HumanPlayer`**: Especialización de `Player` que implementa la toma de decisiones basada en los menús.
+* **`AiPlayer`**: Especialización de `Player` hace lo mismo que lad e arriba solo que automatizado cogiendo las cartas mas grande sy descartandolas.
+* **`Hand`**: Encapsula el comportamiento de las cartas de un jugador. Detecta las combinaciones (`countStairs`, `choosequals`) y el cálculo de penalizaciones.
+* **`Deck`**: Controla los mazos para que no se repitan las cartas a menos q los jugadores pidan más mazos.
+* **`Discard`**: Gestiona la pila visible de descartes.
+* **`Rank`**: Hace la carta acoplando el número (`Card`) con su palo (`Suit`).
+* **`Card` & `Suit` (Enums)**: Enums con los valores permitidos y emojis que indican su palo.
 
 ---
 
 ##  3. Patrones de Diseño Implementados
 
 ### 1. Patrón Singleton (Instancia Única)
-* **Por qué se utiliza:** Para asegurar que solo exista un único flujo activo de entrada de datos (`Scanner(System.in)`) en toda la aplicación, evitando fugas de memoria o conflictos por la apertura concurrente de múltiples flujos de lectura.
-* **Cómo funciona:** El constructor es estrictamente privado y el acceso se restringe a un método estático que crea la instancia únicamente en su primera llamada.
-* **Código de Aplicación:**
+* **Por qué se utiliza:**
+* Se usan para asegurar que solo exista un único flujo activo de entrada de datos (`Scanner(System.in)`) en toda la aplicación, evitando fugas de memoria o conflictos por la apertura concurrente de múltiples flujos de lectura.
+* Funciona ya que el constructor es estrictamente privado y el acceso se restringe a un método estático.
+* **Ejemplo de Código:**
 ```java
 // Ubicado en src/app/ConsoleInput.java
 public class ConsoleInput {
@@ -84,8 +85,9 @@ public class ConsoleInput {
 }
 ```
 ### 2. Patrón Builder (Constructor Progresivo)
-* **Se aplica:** En [BuilderPlayer.java](src/app/BuilderPlayer.java). Simplifica y flexibiliza la instanciación de jugadores complejos. Permite configurar de forma legible los atributos necesarios (como el nombre o si se trata de una Inteligencia Artificial) mediante llamadas encadenadas antes de delegar la creación final.
-* **Código:**
+* **Se aplica:** En [BuilderPlayer.java](src/app/BuilderPlayer.java).nSe usa para poder usar el builder en varias clases `Player` y `PlayerIA`.
+
+* **Ejwmplo de Código:**
 
 ```java
 public class BuilderPlayer {
@@ -111,7 +113,7 @@ public class BuilderPlayer {
     }
 }
 ````
-## 3. Patrón Factory Method (Creación Polimórfica)
+## 3. Patrón Factory
 
 * **Se aplica:**
 En la interacción entre `BuilderPlayer.java` y `GestorGame.java`.
