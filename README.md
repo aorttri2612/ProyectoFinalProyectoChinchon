@@ -12,7 +12,7 @@ El objetivo principal del Chinchón es combinar las 7 cartas de la mano en grupo
 ### Funcionamiento, Reglas y Jugabilidad
 1. **Fase de Reparto:** Cada jugador recibe inicialmente 7 cartas del mazo principal (`Deck`). Se extrae una carta adicional y se coloca boca arriba en la pila de descarte (`Discard`).
 2. **Flujo Dinámico del Turno:** En su respectivo turno, cada jugador realiza obligatoriamente las siguientes acciones:
-   * **Robar:** 
+   * **Robar:** De las de boca abajo o la de descarte del otro
    * **Acción y Evaluación:** La carta se pone en la mano (`Hand`).
    * **Descarte:** Para finalizar el turno, el jugador debe seleccionar una carta de su mano y arrojarla a la pila de descarte.
 3. **Condición de Cierre:** Un jugador puede cerrar si es capaz de realizar combinaciones válidas de tal manera que las cartas no combinadas ("puntos sueltos") sumen cómo máximo 0 y 5 puntos, o si tiene Chinchón.
@@ -30,9 +30,8 @@ El objetivo principal del Chinchón es combinar las 7 cartas de la mano en grupo
 El proyecto se ha organizado de forma modular, separando estrictamente el código de producción de los recursos de desarrollo:
 
 * `src/app/`: Aloja las clases de control de flujo, el arranque de la aplicación y la gestión directa de las lecturas por teclado (`Main`, `GestorGame`, `ConsoleInput`, `BuilderPlayer`).
-* `src/dominio/`: Contiene las clases del núcleo del negocio, modelando los componentes físicos de la baraja española (`Card`, `Suit`, `Rank`, `Deck`, `Hand`, `Discard`) y los actores participantes (`Player`, `HumanPlayer`, `AiPlayer`).
+* `src/dominio/`: Contiene las clases del núcleo, modelando los componentes físicos de la baraja española (`Card`, `Suit`, `Rank`, `Deck`, `Hand`, `Discard`) y los que juegan (`Player`, `HumanPlayer`, `AiPlayer`).
 * `test/` o `tests/`: **Ubicado estratégicamente fuera de la carpeta `src`**. Contiene las clases de pruebas de JUnit (`HandTest`, `DeckTest`, `RankTest`) garantizando que el código de testeo no se mezcle con los binarios de distribución finales.
-* `docs/`: Carpeta destinada a almacenar el material documental del proyecto (diagramas UML, capturas de pantalla de evidencias y la documentación de la API).
 
 ---
 
@@ -61,8 +60,6 @@ A continuación se ilustra la arquitectura de clases, herencias y dependencias q
 ---
 
 ##  3. Patrones de Diseño Implementados
-
-Diego solicita la justificación explícita de los patrones utilizados, cómo funcionan, por qué se han implementado y el código exacto donde se aplican:
 
 ### 1. Patrón Singleton (Instancia Única)
 * **Por qué se utiliza:** Para asegurar que solo exista un único flujo activo de entrada de datos (`Scanner(System.in)`) en toda la aplicación, evitando fugas de memoria o conflictos por la apertura concurrente de múltiples flujos de lectura.
