@@ -7,15 +7,15 @@ Este repositorio contiene el desarrollo del juego clásico de cartas **Chinchón
 ##  1. Explicación del Juego
 
 ### Objetivo del Juego
-El objetivo principal del Chinchón es combinar las 7 cartas de la mano en grupos de valores idénticos (tríos o cuartetos) o en secuencias consecutivas del mismo palo (escaleras). El fin es reducir al mínimo la puntuación de las cartas sueltas (no combinadas). La partida finaliza cuando un jugador consigue cerrar la mano con éxito o realiza un "Chinchón" (escalera perfecta de 7 cartas consecutivas).
+El objetivo principal del Chinchón es combinar las 7 cartas de la mano en grupos de tríos o cuartetos) o en escaleras. Reduciendo el valor de las cartas sueltas. La partida finaliza cuando un jugador consigue cerrar la mano con éxito o realiza un "Chinchón".
 
 ### Funcionamiento, Reglas y Jugabilidad
 1. **Fase de Reparto:** Cada jugador recibe inicialmente 7 cartas del mazo principal (`Deck`). Se extrae una carta adicional y se coloca boca arriba en la pila de descarte (`Discard`).
 2. **Flujo Dinámico del Turno:** En su respectivo turno, cada jugador realiza obligatoriamente las siguientes acciones:
-   * **Robar:** El jugador debe elegir estratégicamente entre tomar la carta oculta del mazo principal o la última carta visible y pública de la pila de descarte.
-   * **Acción y Evaluación:** La carta se integra en la mano (`Hand`). El sistema evalúa internamente y de forma automática las combinaciones actuales del jugador.
-   * **Descarte:** Para finalizar el turno, el jugador debe seleccionar una carta de su mano y arrojarla a la pila de descarte, garantizando terminar su turno exactamente con 7 cartas.
-3. **Condición de Cierre:** Un jugador puede solicitar el cierre de la ronda si, tras robar la octava carta, es capaz de realizar combinaciones válidas de tal manera que las cartas no combinadas ("puntos sueltos") sumen una penalización máxima de entre 0 y 5 puntos, o si dispone de una combinación perfecta (Chinchón).
+   * **Robar:** 
+   * **Acción y Evaluación:** La carta se pone en la mano (`Hand`).
+   * **Descarte:** Para finalizar el turno, el jugador debe seleccionar una carta de su mano y arrojarla a la pila de descarte.
+3. **Condición de Cierre:** Un jugador puede cerrar si es capaz de realizar combinaciones válidas de tal manera que las cartas no combinadas ("puntos sueltos") sumen cómo máximo 0 y 5 puntos, o si tiene Chinchón.
 
 ### 📸 Capturas de Pantalla de la Interfaz del Juego
 *(Espacio reservado para las capturas que muestran la ejecución del menú en consola, el reparto y las manos de los jugadores)*
