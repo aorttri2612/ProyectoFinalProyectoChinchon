@@ -41,7 +41,7 @@ El proyecto se ha organizado de forma modular, separando estrictamente el códig
 ### Diagrama de Clases UML Actualizado
 A continuación se ilustra la arquitectura de clases, herencias y dependencias que dan soporte a la aplicación:
 
-![Diagrama de Clases Chinchón](./docs/DiagramaChinchon.drawio.png)
+![Diagrama de Clases Chinchón](DiagramaChinchon.drawio.png)
 
 ---
 
