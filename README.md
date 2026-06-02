@@ -21,7 +21,7 @@ El objetivo principal del Chinchón es combinar las 7 cartas de la mano en grupo
 *(Espacio reservado para las capturas que muestran la ejecución del menú en consola, el reparto y las manos de los jugadores)*
 
 *(Añade aquí tus imágenes locales guardadas en el repositorio)*
-![Inicio del Juego y Configuración](./docs/captura_inicio.png)
+![Inicio del Juego y Configuración](Flujo.png)
 ![Flujo del Turno en Consola](./docs/captura_turno.png)
 
 ---
