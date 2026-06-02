@@ -204,10 +204,13 @@ void testIsNotChinchon() {
 ## 📸 Evidencias de Ejecución
 
 Los test se ejecutan correctamente mostrando la característica **barra verde de JUnit**, indicando que todas las pruebas han sido superadas satisfactoriamente.
+[HandTest.java](test/HandTest.java)
 ![Funciona HandTest](handTestProbado.png)
 
+[RankTest.java](test/RankTest.java)
 ![Funciona RankTest](RankTest.png)
 
+[DeckTest.java](test/DeckTest.java)
 ![Funciona DeckTest](decktestGuardado.png)
 
 ---
