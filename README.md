@@ -62,7 +62,7 @@ A continuación se ilustra la arquitectura de clases, herencias y dependencias q
 ##  3. Patrones de Diseño Implementados
 
 ### 1. Patrón Singleton (Instancia Única)
-* **Por qué se utiliza:**
+* **Por qué se utiliza:** En [ConsoleInput.java](src/app/ConsoleInput.java)
 * Se usan para asegurar que solo exista un único flujo activo de entrada de datos (`Scanner(System.in)`) en toda la aplicación, evitando fugas de memoria o conflictos por la apertura concurrente de múltiples flujos de lectura.
 * Funciona ya que el constructor es estrictamente privado y el acceso se restringe a un método estático.
 * **Ejemplo de Código:**
